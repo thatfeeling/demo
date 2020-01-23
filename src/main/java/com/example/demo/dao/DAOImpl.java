@@ -11,15 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DAOImpl implements DAO {
-	
-	@Autowired
-	private EntityManager entityManager;
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public DAOImpl(EntityManager entityManager) {
-		this.entityManager = entityManager;
+	public DAOImpl() {
+
 	}
 	
 	@Override
@@ -30,12 +27,11 @@ public class DAOImpl implements DAO {
 
 	@Override
 	public void getAllUsers() {
-//		Session session = entityManager.unwrap(Session.class);
 		Session session = sessionFactory.getCurrentSession();
 		
 		System.out.println("session: " + session);
 		Query<User> query = session.createQuery("from User", User.class);
-		
+		System.out.println("in dao");
 		System.out.println(query.getResultList().get(0));
 	
 	}

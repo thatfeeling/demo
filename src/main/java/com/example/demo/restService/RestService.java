@@ -25,8 +25,6 @@ public class RestService {
 	
 	@RequestMapping(value = "/")
 	public String hello() {
-		System.out.println(Thread.currentThread());
-		System.out.println("in rest");
 		
 		bl.getAllUsers();
 		
