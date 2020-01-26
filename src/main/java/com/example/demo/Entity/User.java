@@ -1,9 +1,13 @@
 package com.example.demo.Entity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,200 +19,87 @@ public class User {
 	@Column(name="id", nullable = false)
 	private int id;
 	
-	@Column(name = "user_name", nullable = false)
-	private String userName;
+	@Column(name = "username", nullable = false)
+	private String username;
 	
 	@Column(name = "password", nullable = false)
 	private String password;
 	
 	@Column(name = "email", nullable = false)
 	private String email;
-
-	@Column(name = "email_confirmed")
-	private boolean emailConfirmed;
 	
-	@Column(name = "last_login")
-	private int lastLogin;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="user_details_id")
+	private UserDetails userDetails;
 	
-	@Column(name = "reg_date")
-	private int regDate;
+	@Column(name = "roles")
+	private String roles;
 	
-	@Column(name = "user_hash")
-	private String userHash;
-	
-	@Column(name = "prem")
-	private boolean prem;
-	
-	@Column(name = "secret")
-	private String secret;
-	
-	@Column(name = "2fa")
-	private boolean twoFa;
-	
-	@Column(name = "refferal")
-	private String refferal;
-	
-	@Column(name = "ref_check")
-	private int refCheck;
-	
-	protected User() {
+	public User() {
 		
 	}
 
-	public User(int id, String userName, String password, String email, boolean emailConfirmed, int lastLogin, int regDate,
-			String userHash, boolean prem, String secret, boolean twoFa, String refferal, int refCheck) {
+	public User(int id, String username, String password, String email, UserDetails userDetails, String roles) {
+		super();
 		this.id = id;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.emailConfirmed = emailConfirmed;
-		this.lastLogin = lastLogin;
-		this.regDate = regDate;
-		this.userHash = userHash;
-		this.prem = prem;
-		this.secret = secret;
-		this.twoFa = twoFa;
-		this.refferal = refferal;
-		this.refCheck = refCheck;
+		this.userDetails = userDetails;
+		this.roles = roles;
 	}
-
 
 	public int getId() {
 		return id;
 	}
 
-
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
-	public String getLogin() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-
-	public void setLogin(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-
 
 	public String getPassword() {
 		return password;
 	}
 
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public String getEmail() {
 		return email;
 	}
 
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-
-	public boolean isEmailConfirmed() {
-		return emailConfirmed;
+	public UserDetails getUserdetail() {
+		return userDetails;
 	}
 
-
-	public void setEmailConfirmed(boolean emailConfirmed) {
-		this.emailConfirmed = emailConfirmed;
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
 	}
 
-
-	public int getLastLogin() {
-		return lastLogin;
+	public String getRoles() {
+		return roles;
 	}
 
-
-	public void setLastLogin(int lastLogin) {
-		this.lastLogin = lastLogin;
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
-
-
-	public int getRegDate() {
-		return regDate;
-	}
-
-
-	public void setRegDate(int regDate) {
-		this.regDate = regDate;
-	}
-
-
-	public String getUserHash() {
-		return userHash;
-	}
-
-
-	public void setUserHash(String userHash) {
-		this.userHash = userHash;
-	}
-
-
-	public boolean isPrem() {
-		return prem;
-	}
-
-
-	public void setPrem(boolean prem) {
-		this.prem = prem;
-	}
-
-
-	public String getSecret() {
-		return secret;
-	}
-
-
-	public void setSecret(String secret) {
-		this.secret = secret;
-	}
-
-
-	public boolean isTwoFa() {
-		return twoFa;
-	}
-
-
-	public void setTwoFa(boolean twoFa) {
-		this.twoFa = twoFa;
-	}
-
-
-	public String getRefferal() {
-		return refferal;
-	}
-
-
-	public void setRefferal(String refferal) {
-		this.refferal = refferal;
-	}
-
-
-	public int getRefCheck() {
-		return refCheck;
-	}
-
-
-	public void setRefCheck(int refCheck) {
-		this.refCheck = refCheck;
-	}
-
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", email=" + email
-				+ ", emailConfirmed=" + emailConfirmed + ", lastLogin=" + lastLogin + ", regDate=" + regDate
-				+ ", userHash=" + userHash + ", prem=" + prem + ", secret=" + secret + ", twoFa=" + twoFa
-				+ ", refferal=" + refferal + ", refCheck=" + refCheck + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", user_details_id=" + userDetails + ", roles=" + roles + "]";
 	}
-	
 }
