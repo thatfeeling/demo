@@ -20,6 +20,9 @@ public class DAOImpl implements DAO {
 	@Autowired
 	private UserDetailsRepository userDetailsRepository;
 	
+	@Autowired
+	private WalletRepository walletRepository;
+	
 	public DAOImpl() {
 
 	}

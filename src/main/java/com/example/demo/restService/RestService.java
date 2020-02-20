@@ -38,6 +38,7 @@ public class RestService {
 	@Autowired
 	private BusinessLogic bl;
 	
+	
 	@RequestMapping(value = "/findname")
 	public String find() {
 		bl.findByName();

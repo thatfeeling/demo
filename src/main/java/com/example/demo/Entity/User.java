@@ -1,5 +1,8 @@
 package com.example.demo.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,6 +36,14 @@ public class User {
 	@JoinColumn(name="user_details_id")
 	private UserDetails userDetails;
 	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="wallet_id")
+	private Wallet wallet;
+	
+	@OneToMany(mappedBy="user")
+//	@JoinColumn(name="user_id")
+	private List<Order> orders;
+	
 	@Column(name = "roles")
 	private String roles;
 	
@@ -39,13 +51,16 @@ public class User {
 		
 	}
 
-	public User(int id, String username, String password, String email, UserDetails userDetails, String roles) {
+	public User(int id, String username, String password, String email, UserDetails userDetails, Wallet wallet,
+			List<Order> orders, String roles) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.userDetails = userDetails;
+		this.wallet = wallet;
+		this.orders = orders;
 		this.roles = roles;
 	}
 
@@ -81,12 +96,28 @@ public class User {
 		this.email = email;
 	}
 
-	public UserDetails getUserdetail() {
+	public UserDetails getUserDetails() {
 		return userDetails;
 	}
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+
+	public Wallet getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(Wallet wallet) {
+		this.wallet = wallet;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public String getRoles() {
@@ -100,6 +131,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", user_details_id=" + userDetails + ", roles=" + roles + "]";
+				+ ", userDetails=" + userDetails + ", wallet=" + wallet + ", orders=" + orders + ", roles=" + roles
+				+ "]";
 	}
 }
