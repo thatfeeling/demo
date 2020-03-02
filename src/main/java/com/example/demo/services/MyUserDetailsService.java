@@ -19,11 +19,12 @@ public class MyUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.example.demo.Entity.User user = dao.findByUsername(username);
+		com.example.demo.Entity.DbUser user = dao.findByUsername(username);
 		
 		if (user == null)
 			throw new UsernameNotFoundException(username);
-		System.out.println("user in service: "+ user);
+//		System.out.println("user in service: "+ user);
+//		return new MyUser(user.getUsername(), user.getPassword(), user.getWallet());
 		return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
 	}
 	

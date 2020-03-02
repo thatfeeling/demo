@@ -2,11 +2,14 @@ package com.example.demo.restService;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.BusinessLogic.BoOrder;
+import com.example.demo.BusinessLogic.BoUser;
 import com.example.demo.BusinessLogic.BusinessLogic;
 import com.example.demo.jwt.JwtRequest;
 import com.example.demo.jwt.JwtResponse;
 import com.example.demo.jwt.JwtUtil;
 import com.example.demo.services.MyUserDetailsService;
+import com.google.gson.Gson;
 
 import javax.servlet.http.Cookie;
 
@@ -41,7 +44,7 @@ public class RestService {
 	
 	@RequestMapping(value = "/findname")
 	public String find() {
-		bl.findByName();
+//		bl.findByName();
 		return "lol";
 	}
 	
@@ -50,15 +53,15 @@ public class RestService {
 		return bl.registerUser("anders", "pass", "anders@kth.se", "USER", "Anders", "Lindstrom", true, "Stockholm", "1488", "Sweden", "9966992211");
 	}
 	
-	@RequestMapping(value = "/")
-	public String hello() {
+	@RequestMapping(value = "/home")
+	public String hello(@RequestBody JwtRequest jwtRequest) {
 		bl.getAllUsers();
+		System.out.println(jwtRequest.getUsername());
 		return "Hello World";
 	}
 	
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest jwtRequest) throws Exception {
-		System.out.println("jwt: " + jwtRequest.getUsername() + " " + jwtRequest.getPassword());
 		try {
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword()));
@@ -67,10 +70,29 @@ public class RestService {
 		}
 		
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-		
 		final String jwt = jwtTokenUtil.generateToken(userDetails);
-
-		System.out.println(jwt);
-		return ResponseEntity.status(HttpStatus.OK).header("Auth ", jwt).build();
+		
+		return ResponseEntity.status(HttpStatus.OK).header("Auth", jwt).build();
 	}
+	
+	@RequestMapping(value = "/placeOrder", method = RequestMethod.POST)
+	public boolean placeOrder(@RequestBody BoOrder order) {
+//		System.out.println(order.getCurrencyToSell() +" " +  order.getCurrencyToBuy() +" "+ order.getUserId() + " " + order.getAmount());
+		bl.processOrder(order.getCurrencyToSell(), order.getCurrencyToBuy(), order.getAmount(), order.getUserId());
+		
+		return true;
+	}
+	
+	@RequestMapping(value = "/getUserInfo")
+	public String getUserInfo(@RequestBody String username) {
+		Gson gson = new Gson();
+//		String username_ = gson.fromJson(user, BoUser.class);
+		System.out.println("in rest: " + username);
+		Object o = bl.findByName(username);
+		System.out.println("in rest o: " + ((BoUser)o));
+		String json = gson.toJson(o);
+		
+		return json;
+	}
+	
 }

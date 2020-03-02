@@ -64,7 +64,7 @@ public class UserDetails {
 	private int refferal_check;
 	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userDetails")
-	private User user;
+	private DbUser user;
 	
 	public UserDetails() {
 		

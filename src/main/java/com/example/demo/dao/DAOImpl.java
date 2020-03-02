@@ -1,7 +1,8 @@
 package com.example.demo.dao;
 
 
-import com.example.demo.Entity.User;
+import com.example.demo.Entity.DbOrder;
+import com.example.demo.Entity.DbUser;
 import com.example.demo.Entity.UserDetails;
 import java.util.List;
 
@@ -23,19 +24,22 @@ public class DAOImpl implements DAO {
 	@Autowired
 	private WalletRepository walletRepository;
 	
+	@Autowired
+	private OrderRepository orderRepository;
+	
 	public DAOImpl() {
 
 	}
 	
 	@Override
-	public User findByUsername(String username) {
-		User u = null; 
-		List<User> users = (List<User>) userRepository.findAll();
-		for (User us : users) {
+	public DbUser findByUsername(String username) {
+		DbUser u = null; 
+		List<DbUser> users = (List<DbUser>) userRepository.findAll();
+		for (DbUser us : users) {
 			if (us.getUsername().equals(username))
 				u = us;
 		}
-		System.out.println(u);
+		System.out.println("user in db: " + u);
 		return u;
 	}
 	
@@ -47,7 +51,7 @@ public class DAOImpl implements DAO {
 	@Override
 	@Transactional
 	public void getAllUsers() {
-		List<User> users = (List<User>) userRepository.findAll();
+		List<DbUser> users = (List<DbUser>) userRepository.findAll();
 		System.out.println(users);
 	
 	}
@@ -56,7 +60,7 @@ public class DAOImpl implements DAO {
 	@Transactional
 	public void registerUser(String username, String password, String email, String roles, String firstName, String lastName, 
 			boolean emailConfirmed, String stateAddress, String postIndex, String country, String phoneNumber) throws Exception{
-		User u = new User();
+		DbUser u = new DbUser();
 		u.setUsername(username);
 		u.setPassword(password);
 		u.setEmail(email);
@@ -77,6 +81,32 @@ public class DAOImpl implements DAO {
 		
 		userDetailsRepository.save(ud);
 		userRepository.save(u);
+	}
+
+	@Override
+	public DbUser getUserInfo(String username) {
+		userRepository.findByUsername(username);
+		DbUser u = new DbUser();
+		
+		return u;
+	}
+	
+	private DbUser findById(int userId) {
+		return userRepository.findById(userId).get();
+	}
+
+	@Override
+	@Transactional
+	public boolean processOrder(String currencyToSell, String currencyToBuy, double amount, int userId) {
+		DbOrder o = new DbOrder();
+		o.setValToSell(currencyToSell);
+		o.setValToBuy(currencyToBuy);
+		o.setAmount(amount);
+		
+		o.setUser(findById(userId));
+		o.setOpen(true);
+		orderRepository.save(o);
+		return true;
 	}
 
 }

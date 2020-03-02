@@ -14,9 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.example.demo.sharedInterfaces.User;
+
 @Entity
 @Table(name="users")
-public class User {
+public class DbUser implements User{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -38,21 +40,21 @@ public class User {
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="wallet_id")
-	private Wallet wallet;
+	private DbWallet wallet;
 	
 	@OneToMany(mappedBy="user")
 //	@JoinColumn(name="user_id")
-	private List<Order> orders;
+	private List<DbOrder> orders;
 	
 	@Column(name = "roles")
 	private String roles;
 	
-	public User() {
+	public DbUser() {
 		
 	}
 
-	public User(int id, String username, String password, String email, UserDetails userDetails, Wallet wallet,
-			List<Order> orders, String roles) {
+	public DbUser(int id, String username, String password, String email, UserDetails userDetails, DbWallet wallet,
+			List<DbOrder> orders, String roles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -104,19 +106,19 @@ public class User {
 		this.userDetails = userDetails;
 	}
 
-	public Wallet getWallet() {
+	public DbWallet getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(Wallet wallet) {
+	public void setWallet(DbWallet wallet) {
 		this.wallet = wallet;
 	}
 
-	public List<Order> getOrders() {
+	public List<DbOrder> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<DbOrder> orders) {
 		this.orders = orders;
 	}
 
@@ -133,5 +135,15 @@ public class User {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
 				+ ", userDetails=" + userDetails + ", wallet=" + wallet + ", orders=" + orders + ", roles=" + roles
 				+ "]";
+	}
+
+	@Override
+	public String getFirstName() {
+		return this.userDetails.getFirstName();
+	}
+
+	@Override
+	public String getLastName() {
+		return this.userDetails.getLastName();
 	}
 }

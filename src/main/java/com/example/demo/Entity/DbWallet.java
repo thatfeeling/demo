@@ -10,9 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.example.demo.sharedInterfaces.Wallet;
+
 @Entity
 @Table(name="wallet")
-public class Wallet {
+public class DbWallet implements Wallet{
 	
 	
 	@Id
@@ -27,13 +29,13 @@ public class Wallet {
 	private double ETH;
 	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "wallet")
-	private User user;
+	private DbUser user;
 	
-	public Wallet() {
+	public DbWallet() {
 		
 	}
 
-	public Wallet(int id, double bTC, double eTH, User user) {
+	public DbWallet(int id, double bTC, double eTH, DbUser user) {
 		super();
 		this.id = id;
 		BTC = bTC;
@@ -65,11 +67,11 @@ public class Wallet {
 		ETH = eTH;
 	}
 
-	public User getUser() {
+	public DbUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(DbUser user) {
 		this.user = user;
 	}
 
@@ -77,4 +79,5 @@ public class Wallet {
 	public String toString() {
 		return "Wallet [id=" + id + ", BTC=" + BTC + ", ETH=" + ETH + "]";
 	}
+
 }

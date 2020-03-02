@@ -10,9 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.demo.sharedInterfaces.Order;
+
 @Entity
 @Table(name="orders")
-public class Order {
+public class DbOrder implements Order{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -21,7 +23,7 @@ public class Order {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
+	private DbUser user;
 	
 	@Column(name="val_sell")
 	private String valToSell;
@@ -36,11 +38,11 @@ public class Order {
 	private boolean isOpen;
 
 	
-	public Order() {
+	public DbOrder() {
 		
 	}
 
-	public Order(int id, String valToSell, String valToBuy, int amount, boolean isOpen, User user) {
+	public DbOrder(int id, String valToSell, String valToBuy, int amount, boolean isOpen, DbUser user) {
 		super();
 		this.id = id;
 		this.valToSell = valToSell;
@@ -79,7 +81,7 @@ public class Order {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
@@ -91,11 +93,11 @@ public class Order {
 		this.isOpen = isOpen;
 	}
 
-	public User getUser() {
+	public DbUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(DbUser user) {
 		this.user = user;
 	}
 
@@ -103,5 +105,20 @@ public class Order {
 	public String toString() {
 		return "Order [id=" + id + ", valToSell=" + valToSell + ", valToBuy=" + valToBuy + ", amount=" + amount
 				+ ", isOpen=" + isOpen + "]";
+	}
+
+	@Override
+	public int getUserId() {
+		return this.getUser().getId();
+	}
+
+	@Override
+	public String getCurrencyToSell() {
+		return this.valToSell;
+	}
+
+	@Override
+	public String getCurrencyToBuy() {
+		return this.valToBuy;
 	}
 }
