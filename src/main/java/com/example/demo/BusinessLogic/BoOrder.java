@@ -10,7 +10,20 @@ public class BoOrder implements Order {
 	private double amount;
 	
 	
-	public void setOrderId(int id) {
+	
+	public BoOrder() {
+		
+	}
+	
+	public BoOrder(int userId, String currencyToSell, String currencyToBuy, double amount) {
+		super();
+		this.userId = userId;
+		this.currencyToSell = currencyToSell;
+		this.currencyToBuy = currencyToBuy;
+		this.amount = amount;
+	}
+
+	public void setUserId(int id) {
 		this.userId = id;
 	}
 	
@@ -45,5 +58,9 @@ public class BoOrder implements Order {
 	public double getAmount() {
 		return this.amount;
 	}
-
+	@Override
+	public String toString() {
+		return "BoOrder [userId=" + userId + ", currencyToSell=" + currencyToSell + ", currencyToBuy=" + currencyToBuy
+				+ ", amount=" + amount + "]";
+	}
 }

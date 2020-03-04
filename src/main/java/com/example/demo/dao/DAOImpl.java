@@ -4,6 +4,8 @@ package com.example.demo.dao;
 import com.example.demo.Entity.DbOrder;
 import com.example.demo.Entity.DbUser;
 import com.example.demo.Entity.UserDetails;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +93,7 @@ public class DAOImpl implements DAO {
 		return u;
 	}
 	
-	private DbUser findById(int userId) {
+	public DbUser findById(int userId) {
 		return userRepository.findById(userId).get();
 	}
 
@@ -107,6 +109,16 @@ public class DAOImpl implements DAO {
 		o.setOpen(true);
 		orderRepository.save(o);
 		return true;
+	}
+
+	@Override
+	public <E> List<DbOrder> getOrders() {
+		List<DbOrder> orders = new ArrayList<>();
+		List<E> temp = (List<E>) orderRepository.findAll();
+		
+//		System.out.println("orders in dao: " + temp);
+		
+		return (List<DbOrder>) temp;
 	}
 
 }

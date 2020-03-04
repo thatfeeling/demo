@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import java.util.List;
 
+import com.example.demo.Entity.DbOrder;
 import com.example.demo.Entity.DbUser;
 
 public interface DAO {
@@ -13,4 +14,6 @@ public interface DAO {
 	void getAllUsers();
 	DbUser getUserInfo(String username);
 	boolean processOrder(String currencyToSell, String currencyToBuy, double amount, int userId);
+	<E>List<DbOrder> getOrders();
+	DbUser findById(int userId);
 }

@@ -68,9 +68,54 @@ public class BusinessLogicImpl implements BusinessLogic{
 	}
 
 	@Override
-	public void processOrder(String currencyToSell, String currencyToBuy, double amount, int userId) {
+	public <E>void processOrder(String currencyToSell, String currencyToBuy, double amount, int userId) {
+		List<E> temp = (List<E>) dao.getOrders();
+		List<BoOrder> orders = new ArrayList<>();
+		BoUser user = new BoUser();
+		Object o = dao.findById(userId);
 		
-		System.out.println(dao.processOrder(currencyToSell, currencyToBuy, amount, userId));
+		user.setFirstName( ((User)o).getFirstName() );
+		user.setId( ((User)o).getId() );
+		user.setLastName( ((User)o).getLastName() );
+		user.setPassword( ((User)o).getPassword() );
+		user.setUsername( ((User)o).getUsername() );
+		user.setWallet( ((User)o).getWallet() );
+		
+		
+		System.out.println(temp);
+		BoOrder order = new BoOrder(userId, currencyToSell, currencyToBuy, amount);
+		for (Object ob : temp) {
+			BoOrder bo = new BoOrder();
+			bo.setAmount( ((Order)ob).getAmount() );
+			bo.setCurrencyToBuy(((Order)ob).getCurrencyToBuy());
+			bo.setCurrencyToSell( ((Order)ob).getCurrencyToSell() );
+			bo.setUserId( ((Order)ob).getUserId() );
+			orders.add(bo);
+		}
+		
+		for (int i=0; i<orders.size(); i++) {
+			if (orders.get(i).getUserId() != userId 
+					&& orders.get(i).getCurrencyToBuy().equals(order.getCurrencyToSell())) {
+				if (orders.get(i).getAmount() - order.getAmount() > 0) {
+					orders.get(i).setAmount(orders.get(i).getAmount() - order.getAmount());
+					
+//					dao.updateWallet(userId, newBtc, newEth);
+//					
+//					dao.placeOrders(orders);
+					
+				} else if (orders.get(i).getAmount() - amount < 0) {
+					
+				}
+				else {
+					orders.remove(i);
+				}
+	
+			}
+		}
+		
+		System.out.println("orders in rest: " + orders);
+	
+//		System.out.println(dao.processOrder(currencyToSell, currencyToBuy, amount, userId));
 		
 	}
 
