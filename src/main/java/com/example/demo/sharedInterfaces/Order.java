@@ -6,5 +6,6 @@ public interface Order {
 	String getCurrencyToSell();
 	String getCurrencyToBuy();
 	double getAmount();
+	int getId();
 	
 }

@@ -3,7 +3,10 @@ package com.example.demo.dao;
 
 import com.example.demo.Entity.DbOrder;
 import com.example.demo.Entity.DbUser;
+import com.example.demo.Entity.DbWallet;
 import com.example.demo.Entity.UserDetails;
+import com.example.demo.sharedInterfaces.Order;
+import com.example.demo.sharedInterfaces.Wallet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,11 +109,37 @@ public class DAOImpl implements DAO {
 		o.setAmount(amount);
 		
 		o.setUser(findById(userId));
-		o.setOpen(true);
+		o.setOpen(true); 
 		orderRepository.save(o);
 		return true;
 	}
+	
+	@Override
+	public DbWallet getUsersWallet(int userId) {
+		System.out.println("in db");
+//		Object o = walletRepository.findByUserId(userId);
+		System.out.println("after in db");
+		DbWallet wallet = new DbWallet();
+//		wallet.setBTC( ((Wallet) o).getBTC());
+//		wallet.setETH( ((Wallet)o).getETH() );
+		System.out.println(wallet);
+		return wallet;
+		
+	}
 
+	@Override
+	@Transactional
+	public <E> boolean placeOrders(List<E> orders) {
+//		orderRepository.save(order);
+		return true;
+	}
+	
+	@Override
+	@Transactional
+	public void removeOrder(int orderId) {
+		orderRepository.deleteById(orderId);
+	}
+	
 	@Override
 	public <E> List<DbOrder> getOrders() {
 		List<DbOrder> orders = new ArrayList<>();
@@ -119,6 +148,40 @@ public class DAOImpl implements DAO {
 //		System.out.println("orders in dao: " + temp);
 		
 		return (List<DbOrder>) temp;
+	}
+
+	@Override
+	public Object getWalletById(int id) {
+		System.out.println("id: " + id);
+		return walletRepository.findById(id).get();
+	}
+
+	@Override
+	public <E> List<DbOrder> getMarket(int userId) {
+		List<DbOrder> orders = new ArrayList<>();
+		List<E> temp = (List<E>) orderRepository.findAll();
+		
+		for (Object o : temp) {
+//			DbOrder order = new DbOrder();
+//			order.setAmount( ((Order)o).getAmount() );
+//			order.setId( ((Order)o).getId() );
+			if (((Order)o).getUserId() != userId)
+				orders.add(((DbOrder)o));
+		}
+		
+//		return (List<DbOrder>) orderRepository.findMarket(userId).findAll();
+		return orders;
+	}
+
+	@Override
+	public void updateWallet(Wallet wallet_) {
+		DbWallet wallet = new DbWallet();
+		wallet.setBTC(wallet_.getBTC());
+		wallet.setETH(wallet_.getETH());
+		wallet.setId(wallet_.getId());
+//		wallet.setUser(wallet_.get);
+		walletRepository.save(wallet);
+		
 	}
 
 }

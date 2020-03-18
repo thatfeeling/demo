@@ -60,6 +60,19 @@ public class RestService {
 		return "Hello World";
 	}
 	
+	@RequestMapping(value = "buyOrder", method = RequestMethod.POST)
+	public void buyOrder(@RequestBody BoOrder order) {
+		bl.buyOrder(order.getId(), order.getUserId());
+	}
+	
+	@RequestMapping(value = "/getMarket")
+	public String geteMarket(@RequestBody int userId) {
+		Gson gson = new Gson();
+		String json = gson.toJson(bl.getMarket(userId));
+		
+		return json;
+	}
+	
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest jwtRequest) throws Exception {
 		try {

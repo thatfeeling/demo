@@ -49,8 +49,8 @@ public class BoUser implements User{
 	public BoWallet getWallet() {
 		return wallet;
 	}
-	public void setWallet(Wallet wallet) {
-		this.wallet = (BoWallet) wallet;
+	public void setWallet(BoWallet wallet) {
+		this.wallet = wallet;
 	}
 
 	@Override

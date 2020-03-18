@@ -8,7 +8,7 @@ public class BoOrder implements Order {
 	private String currencyToSell;
 	private String currencyToBuy;
 	private double amount;
-	
+	private int id;
 	
 	
 	public BoOrder() {
@@ -60,7 +60,15 @@ public class BoOrder implements Order {
 	}
 	@Override
 	public String toString() {
-		return "BoOrder [userId=" + userId + ", currencyToSell=" + currencyToSell + ", currencyToBuy=" + currencyToBuy
+		return "BoOrder [id= " + id + ", userId=" + userId + ", currencyToSell=" + currencyToSell + ", currencyToBuy=" + currencyToBuy
 				+ ", amount=" + amount + "]";
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

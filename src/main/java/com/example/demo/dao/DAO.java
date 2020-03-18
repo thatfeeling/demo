@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.example.demo.Entity.DbOrder;
 import com.example.demo.Entity.DbUser;
+import com.example.demo.Entity.DbWallet;
+import com.example.demo.sharedInterfaces.Wallet;
 
 public interface DAO {
 	
@@ -16,4 +18,10 @@ public interface DAO {
 	boolean processOrder(String currencyToSell, String currencyToBuy, double amount, int userId);
 	<E>List<DbOrder> getOrders();
 	DbUser findById(int userId);
+	<E> boolean placeOrders(List<E> orders);
+	DbWallet getUsersWallet(int userId);
+	Object getWalletById(int id);
+	<E>List<DbOrder> getMarket(int userId);
+	void updateWallet(Wallet wallet);
+	void removeOrder(int orderId);
 }

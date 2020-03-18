@@ -6,6 +6,8 @@ public class BoWallet implements Wallet{
 	
 	private double BTC;
 	private double ETH;
+	private int id;
+	private int userId;
 	
 	public double getBTC() {
 		return BTC;
@@ -22,6 +24,16 @@ public class BoWallet implements Wallet{
 	@Override
 	public String toString() {
 		return "BoWallet [BTC=" + BTC + ", ETH=" + ETH + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	@Override
+	public int getUserId() {
+		return this.userId;
 	}
 	
 }

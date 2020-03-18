@@ -80,4 +80,9 @@ public class DbWallet implements Wallet{
 		return "Wallet [id=" + id + ", BTC=" + BTC + ", ETH=" + ETH + "]";
 	}
 
+	@Override
+	public int getUserId() {
+		return this.user.getId();
+	}
+
 }

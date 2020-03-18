@@ -4,5 +4,7 @@ public interface Wallet {
 	
 	double getBTC();
 	double getETH();
+	int getId();
+	int getUserId();
 	
 }
